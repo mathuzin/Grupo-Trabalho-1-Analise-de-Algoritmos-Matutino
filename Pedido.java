@@ -1,24 +1,24 @@
 import java.util.ArrayList;
 
 public class Pedido {
-    private ArrayList<Profuto> listaProdutos;
+    private ArrayList<Produto> listaProdutos;
     private float custoPedido;
     private float valorEntrega;
     private String tipoDeEntrega;
     Entrega entrega;
 
-    public Pedido(ArrayList<Profuto> listaProdutos, float custoPedido, float valorEntrega, String tipoDeEntrega) {
+    public Pedido(ArrayList<Produto> listaProdutos, float custoPedido, float valorEntrega, String tipoDeEntrega) {
         this.listaProdutos = listaProdutos;
         this.custoPedido = custoPedido;
         this.valorEntrega = valorEntrega;
         this.tipoDeEntrega = tipoDeEntrega;
     }
 
-    public ArrayList<Profuto> getListaProdutos() {
+    public ArrayList<Produto> getListaProdutos() {
         return listaProdutos;
     }
 
-    public void setListaProdutos(ArrayList<Profuto> listaProdutos) {
+    public void setListaProdutos(ArrayList<Produto> listaProdutos) {
         this.listaProdutos = listaProdutos;
     }
 
@@ -49,8 +49,8 @@ public class Pedido {
     private float calcularCustoPedidos() {
         float valorTotal = 0;
 
-        for (Profuto profuto : listaProdutos) {
-            valorTotal += profuto.getValor();
+        for (Produto Produto : listaProdutos) {
+            valorTotal += Produto.getValor();
         }
 
         return valorTotal;
@@ -59,8 +59,8 @@ public class Pedido {
     private float calcularPeso() {
         float pesoTotal = 0;
 
-        for (Profuto profuto : listaProdutos) {
-            pesoTotal += profuto.getPeso();
+        for (Produto Produto : listaProdutos) {
+            pesoTotal += Produto.getPeso();
         }
 
         return pesoTotal;
@@ -70,10 +70,10 @@ public class Pedido {
 
         switch (tipoDeEntrega.toUpperCase().trim()) {
             case "PAC":
-                valorEntrega = entrega.calcularPAC(calcularPeso());
+                valorEntrega = (float) entrega.calcularPAC(calcularPeso());
                 return "PAC escolhido com sucesso.";
             case "SEDEX":
-                valorEntrega = entrega.calcularSedex(calcularPeso());
+                valorEntrega = (float) entrega.calcularSedex(calcularPeso());
                 return "Sedex escolhido com sucesso.";
             case "RETIRAR":
                 valorEntrega = 0;
@@ -81,5 +81,14 @@ public class Pedido {
             default:
                 return "Escolha uma opção válida.";
         }
+    }
+
+    private float calculoTotal() {
+        return calcularCustoPedidos() + valorEntrega;
+    }
+
+    @Override
+    public String toString() {
+        return "Valor final: " + calculoTotal();
     }
 }
